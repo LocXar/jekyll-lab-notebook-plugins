@@ -20,7 +20,7 @@ module Jekyll
       @path = site.layouts["project-home"].path
       self.read_yaml("", "") # uses path from above first
 
-      self.data['title'] = "Projects"
+      self.data['title'] = "Events nach Zusammengehörigkeit"
     end
   end
 
@@ -66,7 +66,7 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     # pretty format dates
     date = DateTime.parse(line.strip)
     iddate = date.strftime("%Y%m%d")
-    displaydate = date.strftime("%a, %b %e")
+    displaydate = date.strftime("%d.%m.%Y")
 
     # extract project tags
     tags = line.strip.scan(/#([a-zA-Z0-9._-]{3,} ?)/)
@@ -164,7 +164,7 @@ Jekyll::Hooks.register :site, :post_write do |site|
       FileUtils.mkdir_p path
       File.open(File.join(path, "index.html"), 'w') do |f|
         # inject new title
-        doc.at_css('h1.post-title').inner_html = "Project ##{tag} <a href=\"#latest\">&#8617;</a>"
+        doc.at_css('h1.post-title').inner_html = "Event ##{tag} <a href=\"#latest\">&#8617;</a>"
 
         # construct one body of HTML from all the separate fragments
         new_node_set = Nokogiri::XML::NodeSet.new(doc)
